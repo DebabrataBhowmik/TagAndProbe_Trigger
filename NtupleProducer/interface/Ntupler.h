@@ -147,7 +147,8 @@ class Ntupler : public edm::EDAnalyzer {
 
       // L1 Token
       edm::EDGetToken muToken;
-  
+      edm::EDGetToken egToken; 
+
      // Verbose output for ID
      bool isMC_;
      bool doEle_;
@@ -174,7 +175,11 @@ class Ntupler : public edm::EDAnalyzer {
      std::vector<std::string> triggerPath;
    
      // All Electron filters and variables
-   
+     std::vector<bool> passL1EG10;
+     std::vector<bool> passL1EG17;
+     std::vector<bool> passL1EG23;
+     std::vector<bool> passL1EG20Iso;
+     std::vector<bool> passL1EG23Iso;   
      std::vector<bool> passFilterEle35;
      std::vector<bool> passFilterEle23_12_leg1;
      std::vector<bool> passFilterEle23_12_leg2;
@@ -299,6 +304,15 @@ class Ntupler : public edm::EDAnalyzer {
      std::vector<bool> passFilterMu17_Mu8_IsoLeg;
      std::vector<bool> passFilterMu12_Ele23_legMu;
      std::vector<bool> passFilterMu23_Ele12_legMu;
+
+     std::vector<bool> passFilterMu12_Ele23_legMu_L10p5;
+     std::vector<bool> passFilterMu12_Ele23_legMu_L10p3;
+     std::vector<bool> passFilterMu23_Ele12_legMu_L10p5;
+     std::vector<bool> passFilterMu23_Ele12_legMu_L10p3;
+     std::vector<bool> passFilterMu12_L10p5;
+     std::vector<bool> passFilterMu12_L10p3;
+     std::vector<bool> passFilterMu23_L10p5;
+     std::vector<bool> passFilterMu23_L10p3;
 
      //Gen particles
      unsigned int   genParticles_n;

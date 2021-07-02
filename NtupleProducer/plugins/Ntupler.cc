@@ -1,4 +1,5 @@
 #include "TagAndProbe_Trigger/NtupleProducer/interface/Ntupler.h"
+#include "TSystem.h"
 
 //
 // constants, enums and typedefs
@@ -26,6 +27,15 @@ Ntupler::Ntupler(const edm::ParameterSet& iConfig):
     doEle_(iConfig.getParameter<bool>("doEle")),
     effectiveAreas_( (iConfig.getParameter<edm::FileInPath>("effAreasConfigFile")).fullPath() )
 {
+    // myfile.open ("Ram_version.txt");
+
+    // myfile<< "run_" << "," << "event_" << "," << "lumis_" << "," << "nElectrons_" << "," << "el->pt()" << "," << "el->superCluster()->eta()" << "," << "el->superCluster()->phi()" << ",ele_passConversionVeto," << "TriggerDecision" << endl;
+
+     if (!(gInterpreter->IsLoaded("vector")))
+        gInterpreter->ProcessLine("#include <vector>");
+     gSystem->Exec("rm -f AutoDict*vector*vector*float*");
+     gInterpreter->GenerateDictionary("vector<vector<string> >", "vector");
+     gInterpreter->GenerateDictionary("vector<vector<bool> >", "vector");
 
     //
     // Prepare tokens for all input collections and objects
@@ -111,6 +121,8 @@ Ntupler::Ntupler(const edm::ParameterSet& iConfig):
     tree_ = fs->make<TTree> ("EventTree", "Event data");
 
     tree_->Branch("run",  &run_,  "run/I");
+    tree_->Branch("event",  &event_,  "event/I");
+    tree_->Branch("lumis",  &lumis_,  "lumis/I");
 
     tree_->Branch("pvNTracks", &pvNTracks_ , "pvNTracks/I");
     tree_->Branch("good_vertices",&good_vertices_, "good_vertices/I");
@@ -168,27 +180,19 @@ Ntupler::Ntupler(const edm::ParameterSet& iConfig):
     tree_->Branch("passMVAIsoWP90"  ,  &passMVAIsoWP90_ );
     tree_->Branch("passMVAIsoWP80"  ,  &passMVAIsoWP80_ );
 
-    tree_->Branch("hasMatchedToZ" , &hasMatchedToZ);
+    // tree_->Branch("hasMatchedToZ" , &hasMatchedToZ);
     // Electron Trigger branch
     tree_->Branch("passL1EG10", &passL1EG10);
     tree_->Branch("passL1EG17", &passL1EG17);
     tree_->Branch("passL1EG23", &passL1EG23);
     tree_->Branch("passL1EG23Iso", &passL1EG23Iso);
     tree_->Branch("passL1EG20Iso", &passL1EG20Iso);
+
     tree_->Branch("triggerPath" ,  &triggerPath);
     tree_->Branch("triggerDecision" ,  &triggerDecision);
-    tree_->Branch("passFilterEle32"           ,  &passFilterEle32);
-    tree_->Branch("passFilterEle23_12_leg1"   ,  &passFilterEle23_12_leg1);
-    tree_->Branch("passFilterEle23_12_leg2"   ,  &passFilterEle23_12_leg2);
-    tree_->Branch("passFilterEle115"           ,  &passFilterEle115);
-    tree_->Branch("passFilterEle50"           ,  &passFilterEle50);
-    tree_->Branch("passFilterEle25"           ,  &passFilterEle25);
-    tree_->Branch("passFilterEle27"           ,  &passFilterEle27);
-    tree_->Branch("passFilterMu12_Ele23_legEle"   ,  &passFilterMu12_Ele23_legEle);
-    tree_->Branch("passFilterMu23_Ele12_legEle"   ,  &passFilterMu23_Ele12_legEle);
 
-    tree_->Branch("filterName" ,  &filterName);
-    tree_->Branch("filterDecision" ,  &filterDecision);
+    tree_->Branch("filterName32" ,  &filterName32);
+    tree_->Branch("filterDecision32" ,  &filterDecision32);
 
     // Trigger objects
 
@@ -197,6 +201,7 @@ Ntupler::Ntupler(const edm::ParameterSet& iConfig):
 
 Ntupler::~Ntupler()
 {
+ // myfile.close();
     // do anything here that needs to be done at desctruction time
     // (e.g. close files, deallocate resources etc.)
 }
@@ -213,18 +218,6 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     using namespace std;
     using namespace edm;
     using namespace reco;
-
-
-    TString ele_filters[9] ={ "hltEle32WPTightGsfTrackIsoFilter",
-        "hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter",
-        "hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter",
-        "hltEle115CaloIdVTGsfTrkIdTGsfDphiFilter",
-        "hltEle50CaloIdVTGsfTrkIdTGsfDphiFilter",
-        "hltDiEle25CaloIdLMWPMS2UnseededFilter",
-        "hltDiEle27L1DoubleEGWPTightHcalIsoFilter",
-        "hltMu12TrkIsoVVLEle23CaloIdLTrackIdLIsoVLElectronlegTrackIsoFilter",
-        "hltMu23TrkIsoVVLEle12CaloIdLTrackIdLIsoVLElectronlegTrackIsoFilter"
-    };
 
     TString ELE32FilterList[13] = {
         "hltEGL1SingleEGOrFilter", "hltEG32L1SingleEGOrEtFilter",
@@ -255,6 +248,8 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     }
 
     run_ = iEvent.id().run();
+    event_ = iEvent.id().event();
+    lumis_ = iEvent.id().luminosityBlock();
 
     // Get rho value
     edm::Handle< double > rhoH;
@@ -369,8 +364,6 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
     triggerPath.clear();
     triggerDecision.clear();
-    filterName.clear();
-    filterDecision.clear();
 
     const edm::TriggerNames &names = iEvent.triggerNames(*triggerResults);
     for(unsigned int iPath=0 ; iPath < pathsToSave_.size(); iPath++)
@@ -378,6 +371,7 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         TString path = pathsToSave_.at(iPath);
         bool trigDec(false);
         size_t j;
+        // std::cout << "Trigger size: " << triggerResults->size() << "\t" << path << std::endl;
         for (j=0; j < triggerResults->size(); j++)
         {
             if (TString(names.triggerName(j)).Contains(path))
@@ -391,7 +385,7 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         j=0;
         triggerPath.push_back( path.Data() );
         triggerDecision.push_back( trigDec );
-        //	cout<<"path : "<<path<<"    , Decision : "<<triggerDecision[iPath]<<endl;
+        // cout<<"path : "<<path<<"    , Decision : "<<triggerDecision[iPath]<<endl;
     }
 
     edm::Handle<trigger::TriggerEvent> triggerSummary;
@@ -412,7 +406,7 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             if (filterIndex < (*triggerSummary).sizeFilters())
             { //check if the trigger object is present
                 //save the trigger objects corresponding to muon leg
-                //           cout<<"filterIndex : "<<filterIndex<<"   , filterName :  "<<(*triggerSummary).filterLabel(filterIndex)<<"  , filterTag : "<<filterTag<<endl;
+                cout<<"filterIndex : "<<filterIndex<<"   , filterName :  "<<(*triggerSummary).filterLabel(filterIndex)<<"  , filterTag : "<<filterTag<<endl;
                 const trigger::Keys &keys = (*triggerSummary).filterKeys(filterIndex);
                 for (size_t j = 0; j < keys.size(); j++)
                 {
@@ -493,18 +487,16 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         passL1EG23 .clear();
         passL1EG20Iso .clear();
         passL1EG23Iso .clear();
-        passFilterEle32          .clear();
-        passFilterEle115          .clear();
-        passFilterEle50          .clear();
-        passFilterEle27          .clear();
-        passFilterEle25          .clear();
-        passFilterEle23_12_leg1  .clear();
-        passFilterEle23_12_leg2  .clear();
-        passFilterMu12_Ele23_legEle.clear();
-        passFilterMu23_Ele12_legEle.clear();
 
+        filterName32.clear();
+        filterDecision32.clear();
         for (size_t i = 0; i < electrons->size(); ++i)
         {
+            std::vector<string> filterName32_allEle;
+            std::vector<bool> filterDecision32_allEle;
+            filterName32_allEle.clear();
+            filterDecision32_allEle.clear();
+
             const auto el = electrons->ptrAt(i);
             // for (const pat::Electron &el : *electrons)
             // Kinematics
@@ -558,15 +550,6 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             passL1EG23Iso.push_back(L1EG23Iso);
 
             // Trigger matching
-            bool filterEle32 = false;
-            bool filterEle23_12_leg1 = false;
-            bool filterEle23_12_leg2 = false;
-            bool filterEle115 = false;
-            bool filterEle50 = false;
-            bool filterEle25 = false;
-            bool filterEle27 = false;
-            bool filterMu12_Ele23_legEle = false;
-            bool filterMu23_Ele12_legEle = false;
             for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatch_.size() ; iteTrigObj++)
             {
                 bool foundTheLeg = false;
@@ -577,45 +560,30 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
                     if (delR<0.1)
                     {
-                        foundTheLeg = true;break;
+                        foundTheLeg = true;
+                        break;
                     }
                 }
-                //       cout<<"filter : "<<ele_filters[4].Contain(filter)<<"    foundTheLeg : "<<foundTheLeg<<endl;
-                //
-                //
-                if(ele_filters[0].Contains(filter) && foundTheLeg)  filterEle32 = true;
-                if(ele_filters[1].Contains(filter) && foundTheLeg)  filterEle23_12_leg1 = true;
-                if(ele_filters[2].Contains(filter) && foundTheLeg)  filterEle23_12_leg2 = true;
-                if(ele_filters[3].Contains(filter) && foundTheLeg)  filterEle115 = true;
-                if(ele_filters[4].Contains(filter) && foundTheLeg)  filterEle50 = true;
-                if(ele_filters[5].Contains(filter) && foundTheLeg)  filterEle25 = true;
-                if(ele_filters[6].Contains(filter) && foundTheLeg)  filterEle27 = true;
-                if(ele_filters[7].Contains(filter) && foundTheLeg)  filterMu12_Ele23_legEle = true;
-                if(ele_filters[8].Contains(filter) && foundTheLeg)  filterMu23_Ele12_legEle = true;
 
+                bool foundTheFilter = false;
                 for (int FilterCount = 0; FilterCount < (sizeof(ELE32FilterList)/sizeof(*ELE32FilterList)); ++FilterCount)
                 {
                     if (ELE32FilterList[FilterCount].Contains(filter) && foundTheLeg)
                     {
-                        filterName.push_back( ELE32FilterList[FilterCount].Data() );
-                        filterDecision.push_back( true );
-                    } else
-                    {
-                        filterName.push_back( ELE32FilterList[FilterCount].Data() );
-                        filterDecision.push_back( false );
+                        foundTheFilter = true;
                     }
                 }
+                if (foundTheFilter)
+                {
+                    filterName32_allEle.push_back( filter.Data() );
+                    filterDecision32_allEle.push_back( true );
+                } else {
+                    filterName32_allEle.push_back( filter.Data() );
+                    filterDecision32_allEle.push_back( false );
+                }
             }
-
-            passFilterEle32          .push_back(filterEle32);
-            passFilterEle23_12_leg1  .push_back(filterEle23_12_leg1);
-            passFilterEle23_12_leg2  .push_back(filterEle23_12_leg2);
-            passFilterEle115          .push_back(filterEle115);
-            passFilterEle50          .push_back(filterEle50);
-            passFilterEle25          .push_back(filterEle25);
-            passFilterEle27          .push_back(filterEle27);
-            passFilterMu12_Ele23_legEle  .push_back(filterMu12_Ele23_legEle);
-            passFilterMu23_Ele12_legEle  .push_back(filterMu23_Ele12_legEle);
+            filterName32.push_back(filterName32_allEle);
+            filterDecision32.push_back(filterDecision32_allEle);
 
             // ID and matching
             ele_dEtaIn_.push_back( el->deltaEtaSuperClusterTrackAtVtx() );
@@ -695,6 +663,16 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             passMVAnoIsoWP80_.push_back  ( (int)isPassMVAnoIsoWP80_ );
             passMVAIsoWP90_.push_back  ( (int)isPassMVAIsoWP90_ );
             passMVAIsoWP80_.push_back  ( (int)isPassMVAIsoWP80_ );
+
+            // myfile<< run_ << "," << event_ << "," << lumis_ << "," << nElectrons_ << "," << el->pt() << "," << el->superCluster()->eta() << "," << el->superCluster()->phi() << "," << (int) passConvVeto << ",";
+            // for (int i = 0; i < filterName32_allEle.size(); ++i)
+            // {
+            //     if (filterName32_allEle[i] == "hltEle32WPTightGsfTrackIsoFilter")
+            //     {
+            //         myfile  << filterDecision32_allEle[i] << std::endl;
+            //     }
+            // }
+
         }
     }
 

@@ -26,7 +26,8 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 #
 # Define input data to read
 #
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
 
 #import FWCore.Utilities.FileUtils as FileUtils
 #
@@ -142,6 +143,13 @@ process.ntupler = cms.EDAnalyzer('Ntupler',
                                                           "hltEle32WPTightGsfDphiFilter",
                                                           "hltEle32WPTightGsfTrackIsoFilter"
 										),
+                                filterToMatchEle23_Ele12	= cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter","hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter"),
+                                filterToMatchEle115		= cms.vstring("hltEle115CaloIdVTGsfTrkIdTGsfDphiFilter"),
+                                filterToMatchEle50		= cms.vstring("hltEle50CaloIdVTGsfTrkIdTGsfDphiFilter"),
+                                filterToMatchPhoton200		= cms.vstring("hltEG200HEFilter"),
+                                filterToMatchDoubleEle25	= cms.vstring("hltEle25CaloIdLMWPMS2Filter","hltDiEle25CaloIdLMWPMS2UnseededFilter"),
+                                filterToMatchDiEle27		= cms.vstring("hltDiEle27L1DoubleEGWPTightHcalIsoFilter"),
+                                filterToMatchDoublePhoton70	= cms.vstring("hltDiEG70HEUnseededFilter"),
 
 				HLTprocess = cms.string("HLT"),
 

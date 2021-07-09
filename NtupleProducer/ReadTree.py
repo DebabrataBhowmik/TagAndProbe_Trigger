@@ -27,3 +27,10 @@ for i,name in enumerate(tree.arrays()['filterName32']):
     for j,Vecfilters in enumerate(name):
         for k,filters in enumerate(Vecfilters):
             print("|{0:10} | {1:10} | {2:10} | {3:40} | {4:15}".format(i, j, k, filters,tree.arrays()['filterDecision32'][i][j][k]))
+for i,name in enumerate(tree.arrays()['filterNameEle23_Ele12']):
+    print("="*98)
+    print("|{0:10} | {1:10} | {2:10} | {3:40} | {4:15}".format("Event No.","Ele Pos.","Filter No.","Filter Name","Filter Decision"))
+    print("="*98)
+    for j,Vecfilters in enumerate(name):
+        for k,filters in enumerate(Vecfilters):
+            print("|{0:10} | {1:10} | {2:10} | {3:40} | {4:15}".format(i, j, k, filters,tree.arrays()['filterDecisionEle23_Ele12'][i][j][k]))

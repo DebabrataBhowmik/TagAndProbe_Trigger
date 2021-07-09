@@ -672,7 +672,7 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             filterDecision32.push_back(filterDecision32_allEle);
 
             // Ele23_Ele12 Trigger matching 
-                        for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchEle23_Ele12_.size() ; iteTrigObj++)
+            for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchEle23_Ele12_.size() ; iteTrigObj++)
             {
                 bool foundTheLeg = false;
                 TString filter = filterToMatchEle23_Ele12_.at(iteTrigObj);
@@ -745,7 +745,7 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             filterDecisionEle115.push_back(filterDecisionEle115_allEle);
 
           // Ele50 Trigger Mtching 
-                      for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchEle50_.size() ; iteTrigObj++)
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchEle50_.size() ; iteTrigObj++)
             {
                 bool foundTheLeg = false;
                 TString filter = filterToMatchEle50_.at(iteTrigObj);
@@ -781,7 +781,7 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             filterDecisionEle50.push_back(filterDecisionEle50_allEle);
 
           // Photon200 Trigger Mtching 
-                      for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchPhoton200_.size() ; iteTrigObj++)
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchPhoton200_.size() ; iteTrigObj++)
             {
                 bool foundTheLeg = false;
                 TString filter = filterToMatchPhoton200_.at(iteTrigObj);
@@ -816,7 +816,7 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             filterNamePhoton200.push_back(filterNamePhoton200_allEle);
             filterDecisionPhoton200.push_back(filterDecisionPhoton200_allEle);
           // DoubleEle25 Trigger Mtching 
-                      for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchDoubleEle25_.size() ; iteTrigObj++)
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchDoubleEle25_.size() ; iteTrigObj++)
             {
                 bool foundTheLeg = false;
                 TString filter = filterToMatchDoubleEle25_.at(iteTrigObj);
@@ -851,7 +851,7 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             filterNameDoubleEle25.push_back(filterNameDoubleEle25_allEle);
             filterDecisionDoubleEle25.push_back(filterDecisionDoubleEle25_allEle);
           // DiEle27 Trigger Mtching 
-                      for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchDiEle27_.size() ; iteTrigObj++)
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchDiEle27_.size() ; iteTrigObj++)
             {
                 bool foundTheLeg = false;
                 TString filter = filterToMatchDiEle27_.at(iteTrigObj);
@@ -886,7 +886,7 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             filterNameDiEle27.push_back(filterNameDiEle27_allEle);
             filterDecisionDiEle27.push_back(filterDecisionDiEle27_allEle);
           // DoublePhoton70 Trigger Mtching 
-                      for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchDoublePhoton70_.size() ; iteTrigObj++)
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchDoublePhoton70_.size() ; iteTrigObj++)
             {
                 bool foundTheLeg = false;
                 TString filter = filterToMatchDoublePhoton70_.at(iteTrigObj);

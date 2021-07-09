@@ -127,6 +127,13 @@ process.ntupler = cms.EDAnalyzer('Ntupler',
                                  l1EGTag      = cms.InputTag("caloStage2Digis","EGamma","RECO"),
 
 				 pathsToSave  = cms.vstring( "HLT_Ele32_WPTight_Gsf_v",
+							     "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v",
+							     "HLT_Ele115_CaloIdVT_GsfTrkIdT_v",
+                                                             "HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165_v",
+                                                             "HLT_Photon200_v",
+                                                             "HLT_DoubleEle25_CaloIdL_MW_v",
+                                                             "HLT_DiEle27_WPTightCaloOnly_L1DoubleEG_v",
+                                                             "HLT_DoublePhoton70_v" 
 								),
                                  filterToMatch= cms.vstring(
                                                           "hltEGL1SingleEGOrFilter",

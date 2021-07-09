@@ -15,6 +15,13 @@
 Ntupler::Ntupler(const edm::ParameterSet& iConfig):
     pathsToSave_(iConfig.getParameter<std::vector<std::string>>("pathsToSave" )),
     filterToMatch_(iConfig.getParameter<std::vector<std::string>>("filterToMatch" )),
+    filterToMatchEle23_Ele12_(iConfig.getParameter<std::vector<std::string>>("filterToMatchEle23_Ele12" )),
+    filterToMatchEle115_(iConfig.getParameter<std::vector<std::string>>("filterToMatchEle115" )),
+    filterToMatchEle50_(iConfig.getParameter<std::vector<std::string>>("filterToMatchEle50" )),
+    filterToMatchPhoton200_(iConfig.getParameter<std::vector<std::string>>("filterToMatchPhoton200" )),
+    filterToMatchDoubleEle25_(iConfig.getParameter<std::vector<std::string>>("filterToMatchDoubleEle25" )),
+    filterToMatchDiEle27_(iConfig.getParameter<std::vector<std::string>>("filterToMatchDiEle27" )),
+    filterToMatchDoublePhoton70_(iConfig.getParameter<std::vector<std::string>>("filterToMatchDoublePhoton70" )),
     HLTprocess_(iConfig.getParameter<std::string>("HLTprocess" )),
     eleIdMapLooseToken_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleIdMapLoose"))),
     eleIdMapMediumToken_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleIdMapMedium"))),
@@ -194,6 +201,26 @@ Ntupler::Ntupler(const edm::ParameterSet& iConfig):
     tree_->Branch("filterName32" ,  &filterName32);
     tree_->Branch("filterDecision32" ,  &filterDecision32);
 
+    tree_->Branch("filterNameEle23_Ele12" ,  &filterNameEle23_Ele12);
+    tree_->Branch("filterDecisionEle23_Ele12" ,  &filterDecisionEle23_Ele12);
+
+    tree_->Branch("filterNameEle115" ,  &filterNameEle115);
+    tree_->Branch("filterDecisionEle115" ,  &filterDecisionEle115);
+
+    tree_->Branch("filterNameEle50" ,  &filterNameEle50);
+    tree_->Branch("filterDecisionEle50" ,  &filterDecisionEle50);
+
+    tree_->Branch("filterNamePhoton200" ,  &filterNamePhoton200);
+    tree_->Branch("filterDecisionPhoton200" ,  &filterDecisionPhoton200);
+
+    tree_->Branch("filterNameDoubleEle25" ,  &filterNameDoubleEle25);
+    tree_->Branch("filterDecisionDoubleEle25" ,  &filterDecisionDoubleEle25);
+
+    tree_->Branch("filterNameDiEle27" ,  &filterNameDiEle27);
+    tree_->Branch("filterDecisionDiEle27" ,  &filterDecisionDiEle27);
+
+    tree_->Branch("filterNameDoublePhoton70" ,  &filterNameDoublePhoton70);
+    tree_->Branch("filterDecisionDoublePhoton70" ,  &filterDecisionDoublePhoton70);
     // Trigger objects
 
 }
@@ -227,6 +254,21 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         "hltEle32WPTightGsfOneOEMinusOneOPFilter", "hltEle32WPTightGsfMissingHitsFilter",
         "hltEle32WPTightGsfDetaFilter", "hltEle32WPTightGsfDphiFilter",
         "hltEle32WPTightGsfTrackIsoFilter"};
+   TString Ele23_Ele12FilterList[2]={
+  	"hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter","hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter"};
+   TString Ele115FilterList[1]={
+        "hltEle115CaloIdVTGsfTrkIdTGsfDphiFilter"};
+   TString Ele50FilterList[1]={
+         "hltEle50CaloIdVTGsfTrkIdTGsfDphiFilter"};
+   TString Photon200FilterList[1]={
+	"hltEG200HEFilter"};
+   TString DoubleEle25FilterList[2]={
+        "hltEle25CaloIdLMWPMS2Filter","hltDiEle25CaloIdLMWPMS2UnseededFilter"};
+   TString DiEle27FilterList[1]={
+         "hltDiEle27L1DoubleEGWPTightHcalIsoFilter"};
+   TString DoublePhoton70FilterList[1]={
+         "hltDiEG70HEUnseededFilter"};
+   
 
     if(isMC_)
     {  // Get gen weight info
@@ -490,12 +532,56 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
         filterName32.clear();
         filterDecision32.clear();
+        filterNameEle23_Ele12.clear();
+        filterDecisionEle23_Ele12.clear();
+        filterNameEle115.clear();
+        filterDecisionEle115.clear();
+        filterNameEle50.clear();
+        filterDecisionEle50.clear();
+        filterNamePhoton200.clear();
+        filterDecisionPhoton200.clear();
+        filterNameDoubleEle25.clear();
+        filterDecisionDoubleEle25.clear();
+        filterNameDiEle27.clear();
+        filterDecisionDiEle27.clear();
+        filterNameDoublePhoton70.clear();
+        filterDecisionDoublePhoton70.clear();
         for (size_t i = 0; i < electrons->size(); ++i)
         {
-            std::vector<string> filterName32_allEle;
-            std::vector<bool> filterDecision32_allEle;
+            std::vector<string> 	  filterName32_allEle;
+            std::vector<bool>             filterDecision32_allEle;
+            std::vector<string>           filterNameEle23_Ele12_allEle;
+ 	    std::vector<bool>             filterDecisionEle23_Ele12_allEle;
+ 	    std::vector<string>           filterNameEle115_allEle;
+            std::vector<bool>             filterDecisionEle115_allEle;
+            std::vector<string>           filterNameEle50_allEle;
+            std::vector<bool>             filterDecisionEle50_allEle;
+            std::vector<string>           filterNamePhoton200_allEle;
+            std::vector<bool>             filterDecisionPhoton200_allEle;
+            std::vector<string>           filterNameDoubleEle25_allEle;
+            std::vector<bool>             filterDecisionDoubleEle25_allEle;
+            std::vector<string>           filterNameDiEle27_allEle;
+            std::vector<bool>             filterDecisionDiEle27_allEle;
+            std::vector<string>           filterNameDoublePhoton70_allEle;
+            std::vector<bool>             filterDecisionDoublePhoton70_allEle;
+
             filterName32_allEle.clear();
             filterDecision32_allEle.clear();
+            filterNameEle23_Ele12_allEle.clear();
+            filterDecisionEle23_Ele12_allEle.clear();
+            filterNameEle115_allEle.clear();
+            filterDecisionEle115_allEle.clear();
+            filterNameEle50_allEle.clear();
+            filterDecisionEle50_allEle.clear();
+            filterNamePhoton200_allEle.clear();
+            filterDecisionPhoton200_allEle.clear();
+            filterNameDoubleEle25_allEle.clear();
+            filterDecisionDoubleEle25_allEle.clear();
+            filterNameDiEle27_allEle.clear();
+            filterDecisionDiEle27_allEle.clear();
+            filterNameDoublePhoton70_allEle.clear();
+            filterDecisionDoublePhoton70_allEle.clear();
+
 
             const auto el = electrons->ptrAt(i);
             // for (const pat::Electron &el : *electrons)
@@ -584,6 +670,258 @@ Ntupler::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             }
             filterName32.push_back(filterName32_allEle);
             filterDecision32.push_back(filterDecision32_allEle);
+
+            // Ele23_Ele12 Trigger matching 
+            for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchEle23_Ele12_.size() ; iteTrigObj++)
+            {
+                bool foundTheLeg = false;
+                TString filter = filterToMatchEle23_Ele12_.at(iteTrigObj);
+                for (unsigned int i = 0 ; i < legObjects[iteTrigObj].size() ; i++)
+                {
+                    float delR = deltaR(legObjects[iteTrigObj].at(i).eta(), legObjects[iteTrigObj].at(i).phi(),el->superCluster()->eta(),el->superCluster()->phi());
+
+                    if (delR<0.1)
+                    {
+                        foundTheLeg = true;
+                        break;
+                    }
+                }
+
+                bool foundTheFilter = false;
+                for (int FilterCount = 0; FilterCount < (sizeof(Ele23_Ele12FilterList)/sizeof(*Ele23_Ele12FilterList)); ++FilterCount)
+                {
+                    if (Ele23_Ele12FilterList[FilterCount].Contains(filter) && foundTheLeg)
+                    {
+                        foundTheFilter = true;
+                    }
+                }
+                if (foundTheFilter)
+                {
+                    filterNameEle23_Ele12_allEle.push_back( filter.Data() );
+                    filterDecisionEle23_Ele12_allEle.push_back( true );
+                } else {
+                    filterNameEle23_Ele12_allEle.push_back( filter.Data() );
+                    filterDecisionEle23_Ele12_allEle.push_back( false );
+                }
+            }
+            filterNameEle23_Ele12.push_back(filterNameEle23_Ele12_allEle);
+            filterDecisionEle23_Ele12.push_back(filterDecisionEle23_Ele12_allEle);
+                 
+
+           // Ele115 Trigger matching
+            for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchEle115_.size() ; iteTrigObj++)
+            {
+                bool foundTheLeg = false;
+                TString filter = filterToMatchEle115_.at(iteTrigObj);
+                for (unsigned int i = 0 ; i < legObjects[iteTrigObj].size() ; i++)
+                {
+                    float delR = deltaR(legObjects[iteTrigObj].at(i).eta(), legObjects[iteTrigObj].at(i).phi(),el->superCluster()->eta(),el->superCluster()->phi());
+
+                    if (delR<0.1)
+                    {
+                        foundTheLeg = true;
+                        break;
+                    }
+                }
+
+                bool foundTheFilter = false;
+                for (int FilterCount = 0; FilterCount < (sizeof(Ele115FilterList)/sizeof(*Ele115FilterList)); ++FilterCount)
+                {
+                    if (Ele115FilterList[FilterCount].Contains(filter) && foundTheLeg)
+                    {
+                        foundTheFilter = true;
+                    }
+                }
+                if (foundTheFilter)
+                {
+                    filterNameEle115_allEle.push_back( filter.Data() );
+                    filterDecisionEle115_allEle.push_back( true );
+                } else {
+                    filterNameEle115_allEle.push_back( filter.Data() );
+                    filterDecisionEle115_allEle.push_back( false );
+                }
+            }
+            filterNameEle115.push_back(filterNameEle115_allEle);
+            filterDecisionEle115.push_back(filterDecisionEle115_allEle);
+
+          // Ele50 Trigger Mtching 
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchEle50_.size() ; iteTrigObj++)
+            {
+                bool foundTheLeg = false;
+                TString filter = filterToMatchEle50_.at(iteTrigObj);
+                for (unsigned int i = 0 ; i < legObjects[iteTrigObj].size() ; i++)
+                {
+                    float delR = deltaR(legObjects[iteTrigObj].at(i).eta(), legObjects[iteTrigObj].at(i).phi(),el->superCluster()->eta(),el->superCluster()->phi());
+
+                    if (delR<0.1)
+                    {
+                        foundTheLeg = true;
+                        break;
+                    }
+                }
+
+                bool foundTheFilter = false;
+                for (int FilterCount = 0; FilterCount < (sizeof(Ele50FilterList)/sizeof(*Ele50FilterList)); ++FilterCount)
+                {
+                    if (Ele50FilterList[FilterCount].Contains(filter) && foundTheLeg)
+                    {
+                        foundTheFilter = true;
+                    }
+                }
+                if (foundTheFilter)
+                {
+                    filterNameEle50_allEle.push_back( filter.Data() );
+                    filterDecisionEle50_allEle.push_back( true );
+                } else {
+                    filterNameEle50_allEle.push_back( filter.Data() );
+                    filterDecisionEle50_allEle.push_back( false );
+                }
+            }
+            filterNameEle50.push_back(filterNameEle50_allEle);
+            filterDecisionEle50.push_back(filterDecisionEle50_allEle);
+
+          // Photon200 Trigger Mtching 
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchPhoton200_.size() ; iteTrigObj++)
+            {
+                bool foundTheLeg = false;
+                TString filter = filterToMatchPhoton200_.at(iteTrigObj);
+                for (unsigned int i = 0 ; i < legObjects[iteTrigObj].size() ; i++)
+                {
+                    float delR = deltaR(legObjects[iteTrigObj].at(i).eta(), legObjects[iteTrigObj].at(i).phi(),el->superCluster()->eta(),el->superCluster()->phi());
+
+                    if (delR<0.1)
+                    {
+                        foundTheLeg = true;
+                        break;
+                    }
+                }
+
+                bool foundTheFilter = false;
+                for (int FilterCount = 0; FilterCount < (sizeof(Photon200FilterList)/sizeof(*Photon200FilterList)); ++FilterCount)
+                {
+                    if (Photon200FilterList[FilterCount].Contains(filter) && foundTheLeg)
+                    {
+                        foundTheFilter = true;
+                    }
+                }
+                if (foundTheFilter)
+                {
+                    filterNamePhoton200_allEle.push_back( filter.Data() );
+                    filterDecisionPhoton200_allEle.push_back( true );
+                } else {
+                    filterNamePhoton200_allEle.push_back( filter.Data() );
+                    filterDecisionPhoton200_allEle.push_back( false );
+                }
+            }
+            filterNamePhoton200.push_back(filterNamePhoton200_allEle);
+            filterDecisionPhoton200.push_back(filterDecisionPhoton200_allEle);
+          // DoubleEle25 Trigger Mtching 
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchDoubleEle25_.size() ; iteTrigObj++)
+            {
+                bool foundTheLeg = false;
+                TString filter = filterToMatchDoubleEle25_.at(iteTrigObj);
+                for (unsigned int i = 0 ; i < legObjects[iteTrigObj].size() ; i++)
+                {
+                    float delR = deltaR(legObjects[iteTrigObj].at(i).eta(), legObjects[iteTrigObj].at(i).phi(),el->superCluster()->eta(),el->superCluster()->phi());
+
+                    if (delR<0.1)
+                    {
+                        foundTheLeg = true;
+                        break;
+                    }
+                }
+
+                bool foundTheFilter = false;
+                for (int FilterCount = 0; FilterCount < (sizeof(DoubleEle25FilterList)/sizeof(*DoubleEle25FilterList)); ++FilterCount)
+                {
+                    if (DoubleEle25FilterList[FilterCount].Contains(filter) && foundTheLeg)
+                    {
+                        foundTheFilter = true;
+                    }
+                }
+                if (foundTheFilter)
+                {
+                    filterNameDoubleEle25_allEle.push_back( filter.Data() );
+                    filterDecisionDoubleEle25_allEle.push_back( true );
+                } else {
+                    filterNameDoubleEle25_allEle.push_back( filter.Data() );
+                    filterDecisionDoubleEle25_allEle.push_back( false );
+                }
+            }
+            filterNameDoubleEle25.push_back(filterNameDoubleEle25_allEle);
+            filterDecisionDoubleEle25.push_back(filterDecisionDoubleEle25_allEle);
+          // DiEle27 Trigger Mtching 
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchDiEle27_.size() ; iteTrigObj++)
+            {
+                bool foundTheLeg = false;
+                TString filter = filterToMatchDiEle27_.at(iteTrigObj);
+                for (unsigned int i = 0 ; i < legObjects[iteTrigObj].size() ; i++)
+                {
+                    float delR = deltaR(legObjects[iteTrigObj].at(i).eta(), legObjects[iteTrigObj].at(i).phi(),el->superCluster()->eta(),el->superCluster()->phi());
+
+                    if (delR<0.1)
+                    {
+                        foundTheLeg = true;
+                        break;
+                    }
+                }
+
+                bool foundTheFilter = false;
+                for (int FilterCount = 0; FilterCount < (sizeof(DiEle27FilterList)/sizeof(*DiEle27FilterList)); ++FilterCount)
+                {
+                    if (DiEle27FilterList[FilterCount].Contains(filter) && foundTheLeg)
+                    {
+                        foundTheFilter = true;
+                    }
+                }
+                if (foundTheFilter)
+                {
+                    filterNameDiEle27_allEle.push_back( filter.Data() );
+                    filterDecisionDiEle27_allEle.push_back( true );
+                } else {
+                    filterNameDiEle27_allEle.push_back( filter.Data() );
+                    filterDecisionDiEle27_allEle.push_back( false );
+                }
+            }
+            filterNameDiEle27.push_back(filterNameDiEle27_allEle);
+            filterDecisionDiEle27.push_back(filterDecisionDiEle27_allEle);
+          // DoublePhoton70 Trigger Mtching 
+          for (unsigned int iteTrigObj = 0 ; iteTrigObj < filterToMatchDoublePhoton70_.size() ; iteTrigObj++)
+            {
+                bool foundTheLeg = false;
+                TString filter = filterToMatchDoublePhoton70_.at(iteTrigObj);
+                for (unsigned int i = 0 ; i < legObjects[iteTrigObj].size() ; i++)
+                {
+                    float delR = deltaR(legObjects[iteTrigObj].at(i).eta(), legObjects[iteTrigObj].at(i).phi(),el->superCluster()->eta(),el->superCluster()->phi());
+
+                    if (delR<0.1)
+                    {
+                        foundTheLeg = true;
+                        break;
+                    }
+                }
+
+                bool foundTheFilter = false;
+                for (int FilterCount = 0; FilterCount < (sizeof(DoublePhoton70FilterList)/sizeof(*DoublePhoton70FilterList)); ++FilterCount)
+                {
+                    if (DoublePhoton70FilterList[FilterCount].Contains(filter) && foundTheLeg)
+                    {
+                        foundTheFilter = true;
+                    }
+                }
+                if (foundTheFilter)
+                {
+                    filterNameDoublePhoton70_allEle.push_back( filter.Data() );
+                    filterDecisionDoublePhoton70_allEle.push_back( true );
+                } else {
+                    filterNameDoublePhoton70_allEle.push_back( filter.Data() );
+                    filterDecisionDoublePhoton70_allEle.push_back( false );
+                }
+            }
+            filterNameDoublePhoton70.push_back(filterNameDoublePhoton70_allEle);
+            filterDecisionDoublePhoton70.push_back(filterDecisionDoublePhoton70_allEle);
+
+
 
             // ID and matching
             ele_dEtaIn_.push_back( el->deltaEtaSuperClusterTrackAtVtx() );

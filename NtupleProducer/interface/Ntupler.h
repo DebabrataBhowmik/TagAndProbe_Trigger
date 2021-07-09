@@ -134,6 +134,13 @@ class Ntupler : public edm::EDAnalyzer {
       HLTConfigProvider hltConfig;
       std::vector<std::string> pathsToSave_;
       std::vector<std::string> filterToMatch_;
+      std::vector<std::string> filterToMatchEle23_Ele12_;
+      std::vector<std::string> filterToMatchEle115_;
+      std::vector<std::string> filterToMatchEle50_;
+      std::vector<std::string> filterToMatchPhoton200_;
+      std::vector<std::string> filterToMatchDoubleEle25_;
+      std::vector<std::string> filterToMatchDiEle27_;
+      std::vector<std::string> filterToMatchDoublePhoton70_;
       std::string HLTprocess_;
 
       // MiniAOD case data members
@@ -189,6 +196,27 @@ class Ntupler : public edm::EDAnalyzer {
      // Filter names and decision
      std::vector<std::vector<bool>> filterDecision32;
      std::vector<std::vector<string>> filterName32;
+
+     std::vector<std::vector<bool>> filterDecisionEle23_Ele12;
+     std::vector<std::vector<string>> filterNameEle23_Ele12;
+
+     std::vector<std::vector<bool>> filterDecisionEle115;
+     std::vector<std::vector<string>> filterNameEle115;
+
+     std::vector<std::vector<bool>> filterDecisionEle50;
+     std::vector<std::vector<string>> filterNameEle50;
+
+     std::vector<std::vector<bool>> filterDecisionPhoton200;
+     std::vector<std::vector<string>> filterNamePhoton200;
+
+     std::vector<std::vector<bool>> filterDecisionDoubleEle25;
+     std::vector<std::vector<string>> filterNameDoubleEle25;
+
+     std::vector<std::vector<bool>> filterDecisionDiEle27;
+     std::vector<std::vector<string>> filterNameDiEle27;
+
+     std::vector<std::vector<bool>> filterDecisionDoublePhoton70;
+     std::vector<std::vector<string>> filterNameDoublePhoton70;
 
      std::vector<bool> passEleIdLoose_;
      std::vector<bool> passEleIdMedium_;

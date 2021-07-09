@@ -26,7 +26,8 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 #
 # Define input data to read
 #
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
 
 #import FWCore.Utilities.FileUtils as FileUtils
 #
@@ -126,6 +127,13 @@ process.ntupler = cms.EDAnalyzer('Ntupler',
                                  l1EGTag      = cms.InputTag("caloStage2Digis","EGamma","RECO"),
 
 				 pathsToSave  = cms.vstring( "HLT_Ele32_WPTight_Gsf_v",
+							     "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v",
+							     "HLT_Ele115_CaloIdVT_GsfTrkIdT_v",
+                                                             "HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165_v",
+                                                             "HLT_Photon200_v",
+                                                             "HLT_DoubleEle25_CaloIdL_MW_v",
+                                                             "HLT_DiEle27_WPTightCaloOnly_L1DoubleEG_v",
+                                                             "HLT_DoublePhoton70_v" 
 								),
                                  filterToMatch= cms.vstring(
                                                           "hltEGL1SingleEGOrFilter",
@@ -142,6 +150,13 @@ process.ntupler = cms.EDAnalyzer('Ntupler',
                                                           "hltEle32WPTightGsfDphiFilter",
                                                           "hltEle32WPTightGsfTrackIsoFilter"
 										),
+                                filterToMatchEle23_Ele12	= cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter","hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter"),
+                                filterToMatchEle115		= cms.vstring("hltEle115CaloIdVTGsfTrkIdTGsfDphiFilter"),
+                                filterToMatchEle50		= cms.vstring("hltEle50CaloIdVTGsfTrkIdTGsfDphiFilter"),
+                                filterToMatchPhoton200		= cms.vstring("hltEG200HEFilter"),
+                                filterToMatchDoubleEle25	= cms.vstring("hltEle25CaloIdLMWPMS2Filter","hltDiEle25CaloIdLMWPMS2UnseededFilter"),
+                                filterToMatchDiEle27		= cms.vstring("hltDiEle27L1DoubleEGWPTightHcalIsoFilter"),
+                                filterToMatchDoublePhoton70	= cms.vstring("hltDiEG70HEUnseededFilter"),
 
 				HLTprocess = cms.string("HLT"),
 

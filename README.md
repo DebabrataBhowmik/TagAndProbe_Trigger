@@ -6,12 +6,14 @@ cmsenv
 
 git clone git@github.com:arunhep/TagAndProbe_Trigger.git
 
-git checkout UL2018
+git checkout LPC_HATs2021
 
 scramv1 b
 
-## For Test Run 
+## For Test Run and producing the input file (flat root tree) for tag and probe analysis 
+```
 cd $CMSSW_BASE/src/TagAndProbe_Trigger/NtupleProducer/test   
-<br>  
-cmsRun runNtupler.py  
-<br>  
+voms-proxy-init --voms cms
+cmsRun runNtupler.py
+```
+

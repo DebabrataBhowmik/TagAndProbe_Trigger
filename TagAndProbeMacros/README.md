@@ -16,7 +16,8 @@
 
 <br>  
 sh compileNrun_tnp.sh TagAndProbe_Ele.C
+
 ./runPlotting.sh histNames_Ele.txt
 <br>  
 
-This produces the *png*, *txt* and *root* files for every trigger (trigger leg in case of double electron trigger).
+#### This produces the *png*, *txt* and *root* files for every trigger (trigger leg in case of double electron trigger).

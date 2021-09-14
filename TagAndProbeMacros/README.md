@@ -1,18 +1,10 @@
 ### The recipe described here produces the trigger efficiency of electron triggers using Tag and Probe method.
 #### The steps are described below.
+##### The input to this code is a flat root tree containing the branches needed for calculation.
+##### The tree is produced using the following code : https://github.com/arunhep/TagAndProbe_Trigger/blob/LPC_HATs2021/NtupleProducer
 
-cmsrel CMSSW_10_6_18  
-cd CMSSW_10_6_18/src  
-cmsenv  
+Step 1 : 
 
-git clone git@github.com:arunhep/TagAndProbe_Trigger.git
-
-git checkout LPC_HATs2021
-
-scramv1 b
-
-## For Test Run 
-cd $CMSSW_BASE/src/TagAndProbe_Trigger/NtupleProducer/test   
 <br>  
 cmsRun runNtupler.py  
 <br>  

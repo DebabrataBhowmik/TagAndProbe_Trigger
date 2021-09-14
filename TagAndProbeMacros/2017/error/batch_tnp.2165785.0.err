@@ -1,0 +1,2 @@
+Error in <TFile::ReadBuffer>: error reading all requested bytes from file /eos/cms/store/group/phys_higgs/cmshww/arun/TriggerEff_RunIILegacy/TrigEff_SingleMu_2017_forpublic/SingleMuon/Run2017B/190506_174348/0000/TnP_ntuple_83.root, got 1829 of 5006
+Warning in <TFile::GetRecordHeader>: /eos/cms/store/group/phys_higgs/cmshww/arun/TriggerEff_RunIILegacy/TrigEff_SingleMu_2017_forpublic/SingleMuon/Run2017B/190506_174348/0000/TnP_ntuple_83.root: failed to read the StreamerInfo data from disk.

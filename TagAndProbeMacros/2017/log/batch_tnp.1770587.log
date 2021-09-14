@@ -1,0 +1,47 @@
+000 (1770587.000.000) 03/22 10:49:58 Job submitted from host: <137.138.120.116:9618?addrs=137.138.120.116-9618+[2001-1458-d00-16--17b]-9618&noUDP&sock=2690491_9e79_37>
+...
+001 (1770587.000.000) 03/22 10:53:18 Job executing on host: <188.185.57.175:9618?addrs=188.185.57.175-9618+[--1]-9618&noUDP&sock=8737_3f0f_3>
+...
+006 (1770587.000.000) 03/22 10:53:27 Image size of job updated: 24916
+	11  -  MemoryUsage of job (MB)
+	10956  -  ResidentSetSize of job (KB)
+...
+006 (1770587.000.000) 03/22 10:58:28 Image size of job updated: 155876
+	148  -  MemoryUsage of job (MB)
+	150660  -  ResidentSetSize of job (KB)
+...
+006 (1770587.000.000) 03/22 11:03:28 Image size of job updated: 156372
+	148  -  MemoryUsage of job (MB)
+	150668  -  ResidentSetSize of job (KB)
+...
+006 (1770587.000.000) 03/22 11:08:28 Image size of job updated: 158096
+	149  -  MemoryUsage of job (MB)
+	152388  -  ResidentSetSize of job (KB)
+...
+006 (1770587.000.000) 03/22 11:33:32 Image size of job updated: 164392
+	155  -  MemoryUsage of job (MB)
+	158688  -  ResidentSetSize of job (KB)
+...
+006 (1770587.000.000) 03/22 12:03:36 Image size of job updated: 167216
+	158  -  MemoryUsage of job (MB)
+	161512  -  ResidentSetSize of job (KB)
+...
+006 (1770587.000.000) 03/22 12:28:39 Image size of job updated: 172984
+	164  -  MemoryUsage of job (MB)
+	167280  -  ResidentSetSize of job (KB)
+...
+005 (1770587.000.000) 03/22 14:15:10 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 00:43:28, Sys 0 00:00:57  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 00:43:28, Sys 0 00:00:57  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	50135  -  Run Bytes Sent By Job
+	359  -  Run Bytes Received By Job
+	50135  -  Total Bytes Sent By Job
+	359  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated 
+	   Cpus                 :                 1         1 
+	   Disk (KB)            :       65        1    730269 
+	   Memory (MB)          :      164     2000      2000 
+...

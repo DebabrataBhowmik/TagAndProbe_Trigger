@@ -1,1 +1,0 @@
-/afs/cern.ch/work/a/arun/Latinos/TriggerEff/UL2018/CMSSW_10_6_18/src/TagAndProbe_Trigger/NtupleProducer/test/TnP_ntuple.root

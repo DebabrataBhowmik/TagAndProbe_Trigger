@@ -1,24 +1,22 @@
-#name = 'TrigEff_HWW_EGamma_2018'
-
 dataset = {
    'Run2018A' : '/EGamma/Run2018A-12Nov2019_UL2018-v2/MINIAOD',
-   'Run2018B' : '/EGamma/Run2018B-12Nov2019_UL2018-v2/MINIAOD',
-   'Run2018C' : '/EGamma/Run2018C-12Nov2019_UL2018-v2/MINIAOD',
-   'Run2018D' : '/EGamma/Run2018D-12Nov2019_UL2018-v4/MINIAOD',
+#   'Run2018B' : '/EGamma/Run2018B-12Nov2019_UL2018-v2/MINIAOD',
+#   'Run2018C' : '/EGamma/Run2018C-12Nov2019_UL2018-v2/MINIAOD',
+#   'Run2018D' : '/EGamma/Run2018D-12Nov2019_UL2018-v4/MINIAOD',
    }
 #nevents = -1 
 lumisPerJob = {
-   'Run2018A':        100,
-   'Run2018B':        100,
-   'Run2018C':        100,
-   'Run2018D':        100,
+   'Run2018A':        300,
+#   'Run2018B':        300,
+#   'Run2018C':        300,
+#   'Run2018D':        300,
    }
 
 listOfSamples = [
    'Run2018A',        
-   'Run2018B',        
-   'Run2018C',        
-   'Run2018D',        
+#   'Run2018B',        
+#   'Run2018C',        
+#   'Run2018D',        
    ]
 
 if __name__ == '__main__':
@@ -32,7 +30,7 @@ if __name__ == '__main__':
    def submit(config):
        res = crabCommand('submit', config = config)
 
-   config.General.workArea = 'crab_TrigEff_HWW_EGamma_2018'
+   config.General.workArea = 'crab_TrigEff_HWW_EGamma_2018_Fall17V2'
    config.General.transferLogs = False
 
    config.JobType.allowUndistributedCMSSW = True
@@ -46,9 +44,11 @@ if __name__ == '__main__':
    config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions18/13TeV/Legacy_2018/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON.txt'
    config.Data.publication = False
    config.Data.totalUnits = -1
-   config.Data.outLFNDirBase = '/store/group/phys_higgs/cmshww/arun/TriggerEff_RunII_ULLegacy/TrigEff_HWW_EGamma_2018'
+   #config.Data.outLFNDirBase = '/store/group/phys_higgs/cmshww/arun/TriggerEff_RunII_ULLegacy/TrigEff_HWW_EGamma_2018_Fall17V2'
+   config.Data.outLFNDirBase = '' #add your storage path
 
-   config.Site.storageSite ='T2_CH_CERN'
+   #config.Site.storageSite ='T2_CH_CERN'
+   config.Site.storageSite ='' #add your storage site
  #  config.Site.blacklist = ['T2_BR_SPRACE', 'T2_US_Wisconsin', 'T1_RU_JINR', 'T2_RU_JINR', 'T2_EE_Estonia']
 
    listOfSamples.reverse()

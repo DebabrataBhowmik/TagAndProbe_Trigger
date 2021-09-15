@@ -16,4 +16,9 @@ cd $CMSSW_BASE/src/TagAndProbe_Trigger/NtupleProducer/test
 voms-proxy-init --voms cms
 cmsRun runNtupler.py
 ```
+## In order to submit crab jobs :
+```
+source /cvmfs/cms.cern.ch/crab3/crab.sh
+python multicrab_Ele.py (change the storage path and site in this file)
+```
 

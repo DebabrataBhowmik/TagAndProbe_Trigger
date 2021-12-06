@@ -4,9 +4,9 @@ cmsrel CMSSW_10_6_18
 cd CMSSW_10_6_18/src  
 cmsenv  
 
-git clone git@github.com:arunhep/TagAndProbe_Trigger.git
+git clone git@github.com:DebabrataBhowmik/TagAndProbe_Trigger.git
 
-git checkout LPC_HATs2021
+git checkout LPC_CMSDAS2022
 
 scramv1 b
 
